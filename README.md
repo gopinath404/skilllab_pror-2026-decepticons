@@ -57,26 +57,24 @@ By the final review, this README should clearly show:
 
 ## 1.1 Studio / Group Name
 
-`Project^2`
+`group name 32`
 
 ## 1.2 Team Members
 
-| Name                  | Primary Role                    | Secondary Role   | Strengths Brought to the Project |
-| --------------        | ------------------------------- | --------------   | -------------------------------- |
-| `Mrugendra Vasmatkar` | `[Electronics / Coding / App ]` | `Documentation`  | `Documentation, Gift of Gab `|
-| `Jyoti Bagate`        | `[Electronics / Fabrication]`   | `[Coding]`       | `Material Handling, Hardware`    |
+| Name                  | Primary Role                    | Secondary Role          | Strengths Brought to the Project |
+| --------------        | ------------------------------- | --------------          | -------------------------------- |
+| `Ananay Rawat`        | `Electronics`                   | `debugging`              | `Hardware`    |
+| `Gopinath Sasmal`     | `coding`                        | `Documentation`         | `Material Handling, Documentation`    |
+| `Advait Palande`      | `Coding`                        | `Documentation`         | `Algorithm Design `    |
+| `Aditya Rathi`        | `coding`                        | `Coding`                | `Algorithm Design`        |
 
 ## 1.3 Project Title
 
-`"Project Project"`
-
-`(because Project-or)`
-
-<img width="1600" height="1131" alt="image" src="https://github.com/user-attachments/assets/c64bfbd4-b3b7-43d9-83ad-c203a5aa11bc" />
+`"Traffic Light Controller + Density Logic"`
 
 ## 1.4 One-Line Pitch
 
-`A projected, fully customizable time portal where engineering education is done through PUBG battlefield in the comfort of our home`
+`A real-time FPGA traffic management system that intelligently controls signals based on vehicle density, with image processing.`
 
 ## 1.5 Expanded Project Idea
 
@@ -87,7 +85,8 @@ In 1–2 paragraphs, explain:
 - what technologies are involved.
 
 **Response:**  
-`A projected and fully customizable time portal can transform engineering education into an immersive PUBG-style battlefield experience from the comfort of home. In this environment, students can learn engineering concepts by entering a virtual battlefield where challenges, obstacles, and missions are designed around real technical problems. Instead of passively studying theory, learners actively apply concepts such as electronics, coding, sensors, robotics, mechanics, and system design to complete missions, solve problems, and progress through different levels. This approach makes engineering education more interactive, engaging, and practical by combining gaming, simulation, and hands-on problem-solving in a familiar and exciting format.`
+`An adaptive traffic light controller is a smart embedded system that dynamically adjusts traffic signal timings based on real-time vehicle density rather than fixed timers. Built on an FPGA-based platform, the system takes traffic density inputs (manually simulated using VIO for demonstration) and uses a finite state machine to intelligently allocate longer green signals to more congested directions. This project transforms a conventional traffic control setup into a responsive and efficient system that reduces waiting time, improves traffic flow, and demonstrates how hardware-level intelligence can solve real-world urban problems.
+The experience it creates is interactive and real-time: users can modify traffic density values and immediately observe how the system adapts signal timings through live debugging tools like ILA. This makes the system feel dynamic rather than static, allowing users to visualize decision-making inside the hardware. The project integrates technologies such as FPGA development using Vivado, Verilog-based digital design (FSM + datapath), and on-chip debugging tools like VIO and ILA. It also lays the foundation for future expansion with machine learning models running on a PYNQ board, where computer vision can automatically detect vehicle density and feed it into the controller, creating a complete intelligent traffic management system.`
 
 ---
 
@@ -99,7 +98,7 @@ List what inspired the project.
 
 | Source Type | Title / Link                                                        | What Inspired You                                                                         |
 | ----------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `[Video]`   | `https://www.instagram.com/reel/DW4CT7WCDry/?igsh=cXg3dzAxYmdncDBo` | `How projection mapping can be used to create interactive digital + physical experiences` |
+| `Reference paper`   | `` | `Inspired by the simplicity and flexibility of FSM-based FPGA design that allows easy modification of traffic signal timing according to real-time requirements.` |
 |             |                                                                     |                                                                                           |
 |             |                                                                     |                                                                                           |
 
@@ -108,7 +107,8 @@ List what inspired the project.
 What makes your project original?
 
 **Response:**  
-
+`What makes our project original is that it moves beyond a traditional fixed-time or manually controlled traffic light system and introduces a semi-adaptive, hardware-driven intelligence directly on FPGA. Instead of relying only on predefined sequences, our design dynamically adjusts signal timing based on traffic density inputs (simulated via VIO), demonstrating real-time adaptability at the hardware level. This creates a bridge between conventional FSM-based controllers and fully intelligent systems.
+Additionally, the project is uniquely structured to be scalable and future-ready: while currently using manual inputs for density, it is designed to seamlessly integrate with machine learning models on a PYNQ platform for automatic vehicle detection. This combination of modular FPGA design (FSM + datapath), real-time debugging (ILA/VIO), and a clear upgrade path to AI-based control gives the project a distinctive edge over standard traffic controller implementations.`
 
 ---
 
@@ -118,17 +118,17 @@ What makes your project original?
 
 Describe exactly how a user will use the project.Make it a story
 **Response:**  
-
+`I switch on the system and see the traffic lights start like a real intersection. I open the control panel and adjust traffic density for different roads. When I increase traffic on one side, its signal stays green longer while the other waits.
+I experiment by changing values, and each time the system adapts instantly. It feels like I’m controlling a real junction. By the end, I understand how the system dynamically adjusts signals based on traffic instead of using fixed timings.`
                                                   |
-
-
-
+                                                  
 ---
 
 # 4. Definition of Success
 
 ## 4.1 Definition of “Usable”
-
+`The system is considered usable when a user can easily input traffic density values through the control interface (VIO) and observe immediate, correct changes in traffic signal behavior without needing deep technical knowledge. The traffic lights should respond smoothly and consistently, clearly reflecting the input conditions (e.g., higher density leads to longer green time).
+Additionally, the system should run reliably on the FPGA without errors, and the outputs (LED signals and internal states via ILA) should be understandable and predictable, allowing the user to confidently interact with and analyze the system.`
 
 
 ## 4.2 Minimum Usable Version
@@ -136,12 +136,19 @@ Describe exactly how a user will use the project.Make it a story
 What is the smallest version of this project that still delivers the core experience?
 
 **Response:**  
-
+`The smallest usable version of this project is a basic FPGA-based traffic light controller that uses manual traffic density inputs (via VIO) to adjust signal timing between two directions (e.g., North-South and East-West). It should include a simple FSM that switches between green, yellow, and red states, with green signal duration changing based on which side has higher density.
+Even without advanced features like ML-based detection or emergency handling, this version still delivers the core experience: the user can input traffic conditions and observe the system dynamically adapting signal timing instead of following fixed intervals.`
 
 ## 4.3 Stretch Features
 
 What features are nice to have but not essential?
 
+`These are advanced features that improve the system but are not required for the core functionality:
+Pedestrian crossing control with dedicated signals and timers
+Multi-lane or multi-junction traffic management instead of just one intersection
+Mobile app or dashboard interface for remote monitoring and control
+Data logging and analytics to track traffic patterns over time
+Real-time cloud connectivity for smart city integration`
 
 ---
 
@@ -155,11 +162,11 @@ Check all that apply.
 
 - [ ] Mechanical
 
-- [x] Sensor-based
+- [ ] Sensor-based
 
 - [x] App-connected
 
-- [x] Motorized
+- [ ] Motorized
 
 - [ ] Sound-based
 
@@ -167,9 +174,9 @@ Check all that apply.
 
 - [x] Screen/UI-based
 
-- [x] Fabricated structure
+- [ ] Fabricated structure
 
-- [x] Game logic based
+- [ ] Game logic based
 
 - [x] Installation
 
@@ -188,6 +195,17 @@ Include:
 - app interaction if any.
 
 **Response:**  
+`The system works as a smart traffic light controller that adjusts signal timing based on traffic conditions.
+Input:
+The user provides traffic density values for different roads using a control interface (VIO). These values represent how crowded each direction is.
+Processing:
+Inside the FPGA, a controller (finite state machine) compares the input densities and decides which road should get more green time. A counter and timing logic manage how long each signal stays active, dynamically adjusting based on the inputs.
+Output:
+The system outputs traffic light signals (red, yellow, green) for each direction, shown using LEDs. The signal duration changes depending on traffic conditions.
+Physical Structure:
+The system runs on an FPGA board (PYNQ-Z2), where LEDs represent traffic lights. Debug tools like ILA help observe internal working such as state transitions and counters.
+App Interaction (if any):
+Currently, interaction is through the hardware interface (VIO in Vivado). In future, it can be extended to a mobile app or Python-based interface on PYNQ for real-time control and monitoring.`
 
 ## 5.3 Input / Output Map
 
