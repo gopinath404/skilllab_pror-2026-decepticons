@@ -159,7 +159,7 @@ Check all that apply.
 
 - [ ] Sensor-based
 
-- [x] App-connected
+- [ ] App-connected
 
 - [ ] Motorized
 
@@ -193,8 +193,11 @@ Currently, interaction is through the hardware interface (VIO in Vivado). In fut
 
 ## 5.3 Input / Output Map
 
-| System Part                              | Type            | What It Does                                                               |
-|
+| System Part                              | Type            | What It Does  | 
+|---------|-------------|----------|
+|`Input Layer`         | `Data Acquisition`    | `Defines the system state by loading state variables (vehicle density and emergency flags) from the simulated image data.` |
+|`Processing Layer` | `Logic Engine` | `Executes the core algorithm by calculating initial green time (density*2s) and performing boundary checks to ensure the timing remains the same limits.` |
+| `Decision & output layer` | `Actuation` | `Selects the final green time (Adaptive or Preemption) and sends the command to the PYNQ-Z2 hardware to trigger the physical LED signal.` |
 
 ---
 
