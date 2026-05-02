@@ -363,7 +363,7 @@ If your cost is too high, what can be simplified, removed, substituted, or share
 Write how your team will work together.
 
 Include:
-
+hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
 - how tasks are divided,
 - how decisions are made,
 - how progress will be checked,
