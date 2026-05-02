@@ -61,7 +61,7 @@ By the final review, this README should clearly show:
 
 | Name                  | Primary Role                    | Secondary Role          | Strengths Brought to the Project |
 | --------------        | ------------------------------- | --------------          | -------------------------------- |
-| `Ananay Rawat`        | `Electronics`                   | `debugging`              | `Hardware`    |
+| `Ananay Rawat`        | `Hardware`                   | `debugging`              | `Hardware`    |
 | `Gopinath Sasmal`     | `coding`                        | `Documentation`         | `Material Handling, Documentation`    |
 | `Advait Palande`      | `Coding`                        | `Documentation`         | `Algorithm Design `    |
 | `Aditya Rathi`        | `coding`                        | `literature survey`            | `Algorithm Design`        |
@@ -72,18 +72,14 @@ Traffic Light Controller + Density Logic
 
 ## 1.4 One-Line Pitch
 
-A real-time FPGA traffic management system that intelligently controls signals based on vehicle density, with image processing.
+A real-time FPGA traffic management system that intelligently controls signals based on vehicle density with image processing.
 
 ## 1.5 Expanded Project Idea
 
 In 1–2 paragraphs, explain:
 
-- what your project is,
-- what kind of experience it creates,
-- what technologies are involved.
- 
 An adaptive traffic light controller is a smart embedded system that dynamically adjusts traffic signal timings based on real-time vehicle density rather than fixed timers. Built on an FPGA-based platform, the system takes traffic density inputs (manually simulated using VIO for demonstration) and uses a finite state machine to intelligently allocate longer green signals to more congested directions. This project transforms a conventional traffic control setup into a responsive and efficient system that reduces waiting time, improves traffic flow, and demonstrates how hardware-level intelligence can solve real-world urban problems.
-The experience it creates is interactive and real-time: users can modify traffic density values and immediately observe how the system adapts signal timings through live debugging tools like ILA. This makes the system feel dynamic rather than static, allowing users to visualize decision-making inside the hardware. The project integrates technologies such as FPGA development using Vivado, Verilog-based digital design (FSM + datapath), and on-chip debugging tools like VIO and ILA. It also lays the foundation for future expansion with machine learning models running on a PYNQ board, where computer vision can automatically detect vehicle density and feed it into the controller, creating a complete intelligent traffic management system.
+The experience it creates is interactive and real-time: users can modify traffic density values and immediately observe how the system adapts signal timings through debugging tools like ILA. This makes the system feel dynamic rather than static, allowing users to visualize decision-making inside the hardware. The project integrates technologies such as FPGA development using Vivado, Verilog-based digital design, and on-chip debugging tools like VIO and ILA. It also lays the foundation for future expansion with machine learning models running on a PYNQ board, where computer vision can automatically detect vehicle density and feed it into the controller, creating a complete intelligent traffic management system.
 
 ---
 
@@ -103,7 +99,7 @@ List what inspired the project.
 What makes your project original?
  
 What makes our project original is that it moves beyond a traditional fixed-time or manually controlled traffic light system and introduces a semi-adaptive, hardware-driven intelligence directly on FPGA. Instead of relying only on predefined sequences, our design dynamically adjusts signal timing based on traffic density inputs (simulated via VIO), demonstrating real-time adaptability at the hardware level. This creates a bridge between conventional FSM-based controllers and fully intelligent systems.
-Additionally, the project is uniquely structured to be scalable and future-ready: while currently using manual inputs for density, it is designed to seamlessly integrate with machine learning models on a PYNQ platform for automatic vehicle detection. This combination of modular FPGA design (FSM + datapath), real-time debugging (ILA/VIO), and a clear upgrade path to AI-based control gives the project a distinctive edge over standard traffic controller implementations.
+Additionally, the project is uniquely structured to be scalable and future-ready: while currently using manual inputs for density, it is designed to seamlessly integrate with machine learning models on a PYNQ platform for automatic vehicle detection. This combination of modular FPGA design (FSM ), real-time debugging , and a clear upgrade path to AI-based control gives the project a distinctive edge over standard traffic controller implementations.
 
 ---
 
