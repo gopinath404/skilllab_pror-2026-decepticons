@@ -226,11 +226,8 @@ The board is connected to a laptop via USB/JTAG for programming, and no external
 
 ## 7.3 Circuit Diagram/architecture diagram
 
-Insert a hand-drawn or software-made circuit diagram.
+<img width="1405" height="509" alt="WhatsApp Image 2026-05-02 at 09 36 54" src="https://github.com/user-attachments/assets/52ce8b0f-0f4b-4cc2-95da-66c5f783085e" />
 
-**Insert image below:**  
-`[Upload image and link here]`
-<img width="867" height="1156" alt="" src="" />
 
 
 # 7.4. Power Plan
@@ -363,7 +360,7 @@ If your cost is too high, what can be simplified, removed, substituted, or share
 Write how your team will work together.
 
 Include:
-hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+
 - how tasks are divided,
 - how decisions are made,
 - how progress will be checked,
