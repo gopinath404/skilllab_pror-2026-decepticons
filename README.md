@@ -234,10 +234,10 @@ The board is connected to a laptop via USB/JTAG for programming, and no external
 
 | Question         | Response                                                                                                                                          |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Power source     | `Battery (Li-ion pack)`                                                                                                                           |
-| Voltage required | `~6–8.4V for motors (via driver), stepped down to 5V for ESP32 (buck converter)`                                                                  |
-| Current concerns | `Motors can draw high current under load, which may cause voltage drops affecting ESP32 and WiFi stability`                                       |
-| Safety concerns  | `Avoid over-discharging Li-ion batteries, ensure proper voltage regulation, prevent short circuits, and secure wiring to avoid loose connections` |
+| Power source     | `Power supply`                                                                                                                           |
+| Voltage required | `The PYNQ-Z2 board requires a 7VDC to 15VDC input voltage when using an external power supply via the barrel jack (2.1mm, center-positive). A 12V, 2.5A power supply is typically recommended for optimal performance, though the board can also be powered directly via the MicroUSB connector`                                                                  |
+| Current concerns | `The primary concerns for running this code on a PYNQ board are processing latency due to the limited ARM CPU power when handling high-resolution OpenCV tasks, and the reliability risk of the Hough filter, which could fail under varying light and cause incorrect traffic density readings`                                       |
+| Safety concerns  | `The primary safety concern is that the Hough filter's dependency on visible lane lines could fail during heavy congestion or poor lighting, causing the system to miscalculate a "critical" traffic jam as an empty lane and erroneously trigger a green light` |
 
 ---
 
@@ -247,42 +247,28 @@ The board is connected to a laptop via USB/JTAG for programming, and no external
 
 | Tool / Platform                | Purpose                                        |
 | ------------------------------ | ---------------------------------------------- |
-| `[MicroPython]`                | `Control ESP32`                                |
-| `[Python/PyGame/OpenCV]`       | `Track markers, game logic, create projection` |
-| `[Fusion/Blender/Illustrator]` | `[Prototyping structure]`                      |
+| `[Google Collab-Python]`       | `Logic and Algorthim designing`                |
+| `Jupyter notebook-Python`      | `Implementing Algorithm on Pynq-Z2`            |
+| `Xilinx Vivado (2025.2)`       | `IP designing`                                 |
 |                                |                                                |
 
 ## 8.2 Software Logic/Algorithm
 
-Describe what the code must do.
+The PYNQ-based traffic system utilizes a sophisticated computer vision pipeline and adaptive control logic to manage intersection efficiency. The process begins with Gaussian Blurring to reduce high-frequency noise , followed by Dynamic ROI Calibration to focus exclusively on the road surface. To ensure accurate density calculations, a Perspective Transform is applied to create a "birds-eye view," which normalizes the road area so that vehicles further away are treated with the same spatial importance as those closer to the camera. Lighting inconsistencies are addressed using CLAHE for contrast enhancement and Adaptive Gaussian Thresholding, which calculates thresholds for small pixel neighborhoods to handle shadows and uneven illumination.  The system refines vehicle detection through a Hough Line Transform, which identifies road boundaries to filter out background noise like sidewalks or buildings. This is supplemented by Multi-Scale Morphological Operations, where "Opening" removes small artifacts and "Closing" bridges gaps between segmented vehicle parts to create solid silhouettes for density measurement. Additionally, an HSV color-space filter is used for Emergency Vehicle Detection by isolating high-intensity red values to trigger signal overrides.  Final signal decisions are governed by Temporal Smoothing, which uses a 5-frame moving average to stabilize density readings against flickering. The Decision & Control Logic applies Adaptive Priority Weighting, granting lanes with over 80% density a 1.5x boost. Finally, an Inverse Signal Sequencer assigns timing, providing high-density lanes with long Green times up to 90 seconds while ensuring low-density lanes receive a minimum safety Green of 10 seconds.
 
-Include:
+-Startup Behavior: The system begins by initializing the computer vision pipeline, which includes setting up Dynamic ROI Calibration to define the road       surface and preparing the Perspective Transform to establish a "birds-eye view" for spatial normalization.
 
-- startup behavior,
-- input handling,
-- sensor reading,
-- decision logic,
-- output behavior,
-- communication logic,
-- reset behavior.
+-Input Handling: The system processes incoming visual data by applying Gaussian Blurring to reduce high-frequency noise and CLAHE to normalize lighting and   contrast across varying environmental conditions.
 
-**Response:**  
-`
+-Sensor Reading (Virtual Sensing): "Sensing" is achieved through image analysis where Adaptive Gaussian Thresholding detects vehicle presence by calculating  local pixel thresholds , while the Hough Line Transform identifies road boundaries to mask out irrelevant background noise like trees or sidewalks.
 
-- **Sample Startup behavior:**  
-  The Raspi/FPGA initializes motor pins, PWM control, and starts a WiFi access point with a web server. The laptop initializes camera input, tracking system, and projection mapping.
-- **Input handling:**  
-  Movement commands are received from the laptop (pygame sends http requests)
-- **Sensor reading:**  
-  The camera continuously captures frames, and OpenCV detects ArUco markers to determine the car’s position and orientation.
-- **Decision logic:**  
-  The system maps the car’s position into a virtual coordinate system and checks for nearby obstacles or collisions. If movement is valid, the command is allowed; if not, it is blocked or replaced with a feedback action (like a slight shake).
-- **Output behavior:**  
-  The ESP32 drives the motors using PWM signals to control speed and direction. The projector displays the updated game environment, including obstacles, targets, and feedback visuals.
-- **Communication logic:**  
-  The laptop sends HTTP requests (e.g., `/forward`, `/left`) to the ESP32 over WiFi. The ESP32 parses these commands and executes motor actions.
-- **Reset behavior:**  
-  If no command is received within a short timeout, the ESP32 stops the motors. The game resets when a level is completed or restarted.`
+-Decision Logic: The core intelligence uses Temporal Smoothing via a 5-frame moving average to prevent signal flickering and employs an HSV color-space       filter for specialized Emergency Vehicle Detection. High-demand lanes receive Adaptive Priority Weighting, granting a 1.5x boost to importance if density    exceeds 80%.
+
+-Output Behavior: The Inverse Signal Sequencer translates density data into actionable timing, assigning long Green phases (up to 90s) to congested lanes     while maintaining a 10s minimum safety Green for low-density areas.
+
+-Communication Logic: While the primary processing happens locally, the system utilizes Multi-Scale Morphological Operations to "communicate" vehicle mass    to the density calculator, using Opening to clear noise and Closing to bridge vehicle silhouettes for a consolidated data representation.
+
+-Reset Behavior: The system maintains stability through its Temporal Smoothing buffer, which continuously refreshes historical data to ensure that the logic  resets its decision-making parameters based on the most recent 5-frame window.
 
 ## 8.3 Code Flowchart
 
@@ -305,18 +291,14 @@ Suggested sequence:
 
 
 
-
 # 9. Bill of Materials
 
 ## 9.1 Full BOM
 
 | Item                             | Quantity | In Kit? | Need to Buy? | Estimated Cost | Material / Spec               | Why This Choice?          |
 | -------------------------------- | --------:| ------- | ------------ | --------------:| ----------------------------- | ------------------------- |
-| `[RASPI]`                        | `1`      | `Yes`   | `No`         | `0`            | `38 Pin ESP32`                | `[To control components]` |
-| `[Motor Driver]`                 | `[1]`    | `[Yes]` | `[No]`       | `0`            | `[LN296]`                     | `[To drive both motors]`  |
-| `[DC Motors and wheel]`          | `[2]`    | `[No]`  | `[Yes]`      | `[150]`        | `[BO Motors and 6 cm wheels]` | `[high torque motors]`    |
-| `[Buck Converter]`               | `[1]`    | `[No]`  | `[Yes]`      | `[75]`         |                               |                           |
-| `[Li-ion batteries with holder]` | `[1]`    | `[No]`  | `[Yes]`      | `[200]`        |                               |                           |
+| `[PYNQ-Z2]`                        | `1`      | `Yes`   | `No`         | `0`            | ``                          | `[To control components]` |
+
 
 ## 9.2 Material Justification
 
